@@ -19,10 +19,10 @@ function handleShipAnimation() {
     SPACE_SHIP.y -=  SPACE_SHIP.speed * cos;
   }
   if (CONTROLS.ship.rotateClockwise) {
-    SPACE_SHIP.rotation -= 4;
+    SPACE_SHIP.rotation -= 5;
   }
   if (CONTROLS.ship.rotateCounterClockwise) {
-    SPACE_SHIP.rotation += 4;
+    SPACE_SHIP.rotation += 5;
   }
 
   // Check if asteroid is leaving the boundary, if so, switch sides
@@ -36,17 +36,30 @@ function handleShipAnimation() {
     SPACE_SHIP.y = 300;
   }
 }
-
+//Makes rectangle that moves diagonally across screen
 function RenderNewObject(context) {
-  context.fillStyle = 'rgb(200, 0, 0)';
-  context.fillRect (CUBE.x, CUBE.y, 100, 100);
-  }
+    context.drawImage (imageBackground, 0, 0, GAME.canvas.width, GAME.canvas.height);
+    context.drawImage (image2, SQUARE_COORDINATES.x, 0, 100, randomStuff.x);
+    context.drawImage (image2, SQUARE_COORDINATES.x2, randomStuff.heightOnCanvas, 100, randomStuff.height * 100);
+    if (SQUARE_COORDINATES.x <= 0 || SQUARE_COORDINATES.x2 <= 0){
+      SQUARE_COORDINATES.x = 550;
+      SQUARE_COORDINATES.x2 = 550;
+      howFast.fastOne = howFast.fastOne + 2;
+      SPACE_SHIP.speed = SPACE_SHIP.speed + 2;
+      if (howFast.fastOne >= 10){
+        howFast.fastOne = howFast.fastOne - 2;
+        SPACE_SHIP.speed = SPACE_SHIP.speed - 2;
+      }
+      randomStuff.x = Math.floor ((Math.random () * 100) + 50);
+      randomStuff.heightOnCanvas =  300 - Math.floor ((Math.random () * 100) + 50);
+      randomStuff.height = Math.floor ((Math.random () * 100) + 50);
+    }
 
-
-function HandleNewObjectMovement(){
-if (CUBE.x < 500){
-    CUBE.x = CUBE.x+1;
 }
+
+function HandleNewObjectMovement() {
+  SQUARE_COORDINATES.x -= howFast.fastOne;
+  SQUARE_COORDINATES.x2 -= howFast.fastOne;
 }
 
 function runGame() {
